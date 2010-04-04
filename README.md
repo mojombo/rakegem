@@ -43,6 +43,12 @@ library) that contains a version line. It should look something like this:
 It is important that you use the constant `VERSION` and that it appear on a
 line by itself.
 
+# UPDATING THE VERSION
+
+In order to make a new release, you'll want to update the version. With
+RakeGem, you only need to do that in the `lib/NAME.rb` file. Everything else
+will use this find the canonical version of the library.
+
 # TASKS
 
 RakeGem provides three rake tasks:
