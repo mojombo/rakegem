@@ -17,6 +17,9 @@ RakeGem assumes you are using Git. This makes the Rake tasks easy to write. If
 you are using something else, you should be able to get RakeGem up and running
 with your system without too much editing.
 
+The RakeGem tasks were inspired by the
+[Sinatra](http://github.com/sinatra/sinatra) project.
+
 # INSTALLATION
 
 Take a look at `Rakefile` and `NAME.gemspec`. For new projects, you can start
