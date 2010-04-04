@@ -44,7 +44,7 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
-desc "Generate and open coverage stats via rcov"
+desc "Generate RCov test coverage and open in your browser"
 task :coverage do
   require 'rcov'
   sh "rm -fr coverage"
