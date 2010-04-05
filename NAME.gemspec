@@ -46,6 +46,14 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.extra_rdoc_files = %w[README LICENSE]
 
+  ## List your runtime dependencies here. Runtime dependencies are those
+  ## that are needed for an end user to actually USE your code.
+  s.add_dependency('DEPNAME', [">= 1.1.0", "< 2.0.0"])
+
+  ## List your development dependencies here. Development dependencies are
+  ## those that are only needed during development
+  s.add_development_dependency('DEVDEPNAME', [">= 1.1.0", "< 2.0.0"])
+
   ## Leave this section as-is. It will be automatically generated from the
   ## contents of your Git repository via the gemspec task. DO NOT REMOVE
   ## THE MANIFEST COMMENTS, they are used as delimiters by the task.
