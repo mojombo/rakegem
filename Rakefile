@@ -12,9 +12,13 @@ def name
   @name ||= Dir['*.gemspec'].first.split('.').first
 end
 
-def source_version
+def version
   line = File.read("lib/#{name}.rb")[/^\s*VERSION\s*=\s*.*/]
   line.match(/.*VERSION\s*=\s*['"](.*)['"]/)[1]
+end
+
+def date
+  Date.today.to_s
 end
 
 def gemspec_file
@@ -22,7 +26,11 @@ def gemspec_file
 end
 
 def gem_file
-  "#{name}-#{source_version}.gem"
+  "#{name}-#{version}.gem"
+end
+
+def replace_header(head, header_name)
+  head.sub!(/(\.#{header_name}\s*= ').*'/) { "#{$1}#{send(header_name)}'"}
 end
 
 #############################################################################
@@ -51,7 +59,7 @@ end
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "#{name} #{source_version}"
+  rdoc.title = "#{name} #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
@@ -80,11 +88,11 @@ task :release => :build do
     puts "You must be on the master branch to release!"
     exit!
   end
-  sh "git commit --allow-empty -a -m 'Release #{source_version}'"
-  sh "git tag v#{source_version}"
+  sh "git commit --allow-empty -a -m 'Release #{version}'"
+  sh "git tag v#{version}"
   sh "git push origin master"
-  sh "git push v#{source_version}"
-  sh "gem push pkg/#{name}-#{source_version}.gem"
+  sh "git push v#{version}"
+  sh "gem push pkg/#{name}-#{version}.gem"
 end
 
 task :build => :gemspec do
@@ -99,9 +107,9 @@ task :gemspec => :validate do
   head, manifest, tail = spec.split("  # = MANIFEST =\n")
 
   # replace name version and date
-  head.sub!(/(\.name\s*= ').*'/) { "#{$1}#{name}'"}
-  head.sub!(/(\.version\s*= ').*'/) { "#{$1}#{source_version}'"}
-  head.sub!(/(\.date\s*= ').*'/) { "#{$1}#{Date.today.to_s}'"}
+  replace_header(head, :name)
+  replace_header(head, :version)
+  replace_header(head, :date)
 
   # determine file list from git ls-files
   files = `git ls-files`.
