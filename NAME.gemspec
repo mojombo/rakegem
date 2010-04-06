@@ -7,12 +7,16 @@
 Gem::Specification.new do |s|
   s.specification_version = 2 if s.respond_to? :specification_version=
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.rubygems_version = '1.3.5'
+  s.require_paths = %w[lib]
 
-  ## Leave the name, version and date as-is, they will be modified for you by 
-  ## the rake gemspec task.
-  s.name    = 'NAME'
-  s.version = '0.0.0'
-  s.date    = '2010-01-01'
+  ## Leave these as is they will be modified for you by the rake gemspec task.
+  ## If your rubyforge_project name is different, then edit it and comment out
+  ## the sub! line in the Rakefile
+  s.name              = 'NAME'
+  s.version           = '0.0'
+  s.date              = '2010-01-01'
+  s.rubyforge_project = 'NAME'
 
   ## Make sure your summary is short. The description may be as long
   ## as you like.
@@ -25,12 +29,6 @@ Gem::Specification.new do |s|
   s.authors  = ["John Doe"]
   s.email    = 'jdoe@example.com'
   s.homepage = 'http://example.com/NAME'
-
-  ## The rubyforge_project will almost certainly be the same as the name you
-  ## entered above.
-  s.rubyforge_project = 'NAME'
-  s.rubygems_version = '1.3.5'
-  s.require_paths = %w[lib]
 
   ## This sections is only necessary if you have C extensions.
   s.require_paths << 'ext'
