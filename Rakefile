@@ -98,10 +98,10 @@ task :gemspec => :validate do
   spec = File.read(gemspec_file)
   head, manifest, tail = spec.split("  # = MANIFEST =\n")
 
-  # replace name, version and date
-  head.sub!(/\.name = '.*'/, ".name = '#{name}'")
-  head.sub!(/\.version = '.*'/, ".version = '#{source_version}'")
-  head.sub!(/\.date = '.*'/, ".date = '#{Date.today.to_s}'")
+  # replace name version and date
+  head.sub!(/(\.name\s*= ').*'/) { "#{$1}#{name}'"}
+  head.sub!(/(\.version\s*= ').*'/) { "#{$1}#{source_version}'"}
+  head.sub!(/(\.date\s*= ').*'/) { "#{$1}#{Date.today.to_s}'"}
 
   # determine file list from git ls-files
   files = `git ls-files`.
