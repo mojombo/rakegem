@@ -8,9 +8,8 @@ Gem::Specification.new do |s|
   s.specification_version = 2 if s.respond_to? :specification_version=
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
 
-  ## Make sure to set the name to whatever your gem is called, without
-  ## any extensions or anything. Leave the version and date as-is, they
-  ## will be modified for you by the rake gemspec task.
+  ## Leave the name, version and date as-is, they will be modified for you by 
+  ## the rake gemspec task.
   s.name    = 'NAME'
   s.version = '0.0.0'
   s.date    = '2010-01-01'

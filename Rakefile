@@ -4,29 +4,25 @@ require 'date'
 
 #############################################################################
 #
-# The name of the package
-#
-#############################################################################
-
-NAME = 'NAME'
-
-#############################################################################
-#
 # Helper functions
 #
 #############################################################################
 
+def name
+  @name ||= Dir['*.gemspec'].first.split('.').first
+end
+
 def source_version
-  line = File.read("lib/#{NAME}.rb")[/^\s*VERSION\s*=\s*.*/]
+  line = File.read("lib/#{name}.rb")[/^\s*VERSION\s*=\s*.*/]
   line.match(/.*VERSION\s*=\s*['"](.*)['"]/)[1]
 end
 
 def gemspec_file
-  "#{NAME}.gemspec"
+  "#{name}.gemspec"
 end
 
 def gem_file
-  "#{NAME}-#{source_version}.gem"
+  "#{name}-#{source_version}.gem"
 end
 
 #############################################################################
@@ -55,14 +51,14 @@ end
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "#{NAME} #{source_version}"
+  rdoc.title = "#{name} #{source_version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
 desc "Open an irb session preloaded with this library"
 task :console do
-  sh "irb -rubygems -r ./lib/#{NAME}.rb"
+  sh "irb -rubygems -r ./lib/#{name}.rb"
 end
 
 #############################################################################
@@ -88,7 +84,7 @@ task :release => :build do
   sh "git tag v#{source_version}"
   sh "git push origin master"
   sh "git push v#{source_version}"
-  sh "gem push pkg/#{NAME}-#{source_version}.gem"
+  sh "gem push pkg/#{name}-#{source_version}.gem"
 end
 
 task :build => :gemspec do
@@ -102,7 +98,8 @@ task :gemspec => :validate do
   spec = File.read(gemspec_file)
   head, manifest, tail = spec.split("  # = MANIFEST =\n")
 
-  # replace version and date
+  # replace name, version and date
+  head.sub!(/\.name = '.*'/, ".name = '#{name}'")
   head.sub!(/\.version = '.*'/, ".version = '#{source_version}'")
   head.sub!(/\.date = '.*'/, ".date = '#{Date.today.to_s}'")
 
@@ -123,9 +120,9 @@ task :gemspec => :validate do
 end
 
 task :validate do
-  libfiles = Dir['lib/*'] - ["lib/#{NAME}.rb", "lib/#{NAME}"]
+  libfiles = Dir['lib/*'] - ["lib/#{name}.rb", "lib/#{name}"]
   unless libfiles.empty?
-    puts "Directory `lib` should only contain a `#{NAME}.rb` file and `#{NAME}` dir."
+    puts "Directory `lib` should only contain a `#{name}.rb` file and `#{name}` dir."
     exit!
   end
   unless Dir['VERSION*'].empty?
