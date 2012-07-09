@@ -43,24 +43,23 @@ end
 #
 #############################################################################
 
-task :default => :test
+task :default => :spec
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
+require "rspec/core/rake_task"
+
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.pattern = 'spec/**/*_spec.rb'
+  spec.rspec_opts = ['--backtrace']
 end
 
-desc "Generate RCov test coverage and open in your browser"
+desc "Generate SimpleCov test coverage and open in your browser"
 task :coverage do
-  require 'rcov'
   sh "rm -fr coverage"
-  sh "rcov test/test_*.rb"
+  sh "ruby -e \"require 'simplecov'\; SimpleCov.start\" "
   sh "open coverage/index.html"
 end
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "#{name} #{version}"
@@ -71,6 +70,16 @@ end
 desc "Open an irb session preloaded with this library"
 task :console do
   sh "irb -rubygems -r ./lib/#{name}.rb"
+end
+
+desc "Open an irb session preloaded with this library"
+task :irb do
+  sh "irb -rubygems -r ./lib/#{name}.rb"
+end
+
+desc "Open an pry session preloaded with this library"
+task :pry do
+  sh "pry -r ./lib/#{name}.rb"
 end
 
 #############################################################################
